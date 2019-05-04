@@ -34,3 +34,12 @@ func (s *Server) GetGradesByIDAndUser(params data.GetUserGradeListParams) middle
 	}
 	return data.NewGetUserGradeListOK().WithPayload(resp)
 }
+
+func (s *Server) PostGrade(params data.PostNewGradeParams) middleware.Responder {
+	err := s.gc.PostGrade(params.ProfileID, params.Data)
+	if err != nil {
+		log.Printf("[PostGrade] Error: %s", err.Error())
+		return data.NewPostNewGradeDefault(500)
+	}
+	return data.NewPostNewGradeAccepted()
+}

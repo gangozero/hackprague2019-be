@@ -8,7 +8,7 @@ SWAGGER_VERSION=v0.19.0
 SWAGGER_CMD=docker run --rm -it -v $(PROJECT_ROOT):$(PROJECT_TOOL_PATH) -w $(PROJECT_TOOL_PATH) quay.io/goswagger/swagger:$(SWAGGER_VERSION)
 
 DOCKER_REPO=gcr.io/hackprague2019-239615/$(PROJECT_NAME)
-VERSION=0.2
+VERSION=0.3
 TAG=$(DOCKER_REPO)/backend:$(VERSION)
 
 .DEFAULT_GOAL: validate
@@ -48,5 +48,5 @@ docker-rm:
 docker-run:
 	docker rm -f $(PROJECT_NAME) || true && docker run -dt --name $(PROJECT_NAME) --rm -p 8080:8080 $(TAG)
 
-
-#export GOOGLE_APPLICATION_CREDENTIALS="/home/andrey_prokopiev/hackprague2019-be7b644e286a.json"
+docker-stop:
+	docker rm -f $(PROJECT_NAME) || true

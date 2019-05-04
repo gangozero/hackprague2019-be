@@ -81,6 +81,14 @@ func init() {
             "name": "profile_id",
             "in": "path",
             "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sample"
+            }
           }
         ],
         "responses": {
@@ -289,6 +297,14 @@ func init() {
             "name": "profile_id",
             "in": "path",
             "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sample"
+            }
           }
         ],
         "responses": {

@@ -107,7 +107,12 @@ paths:
         - type: string
           name: profile_id
           in: path
-          required: true        
+          required: true
+        - name: data
+          in: body
+          schema:
+            $ref: "#/definitions/sample"
+          required: true                  
       responses:
         202:
           description: Submitted

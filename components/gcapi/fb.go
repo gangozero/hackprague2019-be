@@ -46,6 +46,19 @@ func fs2sample(data map[string]interface{}) *models.Sample {
 	}
 }
 
+func sample2fs(profileID string, data *models.Sample) map[string]interface{} {
+	return map[string]interface{}{
+		"user_id": data.UserID,
+		"grade":   data.Grade,
+		"ts":      time.Now(),
+		"profile": profileID,
+		"geo": &latlng.LatLng{
+			Latitude:  data.Lat,
+			Longitude: data.Lon,
+		},
+	}
+}
+
 func (c *Client) GetGradesByID(profileID string) ([]*models.Sample, error) {
 	result := []*models.Sample{}
 
@@ -89,4 +102,14 @@ func (c *Client) GetGradesByIDAndUser(profileID, userID string) ([]*models.Sampl
 	}
 
 	return result, nil
+}
+
+func (c *Client) PostGrade(profileID string, data *models.Sample) error {
+	ctx := context.Background()
+	_, _, err := c.firestore.Collection("grades").
+		Add(ctx, sample2fs(profileID, data))
+	if err != nil {
+		fmt.Errorf("Failed to add sample: %v", err)
+	}
+	return nil
 }

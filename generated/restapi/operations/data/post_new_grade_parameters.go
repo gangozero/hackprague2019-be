@@ -6,12 +6,16 @@ package data
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"io"
 	"net/http"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 
 	strfmt "github.com/go-openapi/strfmt"
+
+	models "github.com/gangozero/hackprague2019-be/generated/models"
 )
 
 // NewPostNewGradeParams creates a new PostNewGradeParams object
@@ -32,6 +36,11 @@ type PostNewGradeParams struct {
 
 	/*
 	  Required: true
+	  In: body
+	*/
+	Data *models.Sample
+	/*
+	  Required: true
 	  In: path
 	*/
 	ProfileID string
@@ -46,6 +55,28 @@ func (o *PostNewGradeParams) BindRequest(r *http.Request, route *middleware.Matc
 
 	o.HTTPRequest = r
 
+	if runtime.HasBody(r) {
+		defer r.Body.Close()
+		var body models.Sample
+		if err := route.Consumer.Consume(r.Body, &body); err != nil {
+			if err == io.EOF {
+				res = append(res, errors.Required("data", "body"))
+			} else {
+				res = append(res, errors.NewParseError("data", "body", "", err))
+			}
+		} else {
+			// validate body object
+			if err := body.Validate(route.Formats); err != nil {
+				res = append(res, err)
+			}
+
+			if len(res) == 0 {
+				o.Data = &body
+			}
+		}
+	} else {
+		res = append(res, errors.Required("data", "body"))
+	}
 	rProfileID, rhkProfileID, _ := route.Params.GetOK("profile_id")
 	if err := o.bindProfileID(rProfileID, rhkProfileID, route.Formats); err != nil {
 		res = append(res, err)

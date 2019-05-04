@@ -9,7 +9,6 @@ import (
 
 	errors "github.com/go-openapi/errors"
 	runtime "github.com/go-openapi/runtime"
-	middleware "github.com/go-openapi/runtime/middleware"
 
 	"github.com/gangozero/hackprague2019-be/components/server"
 	"github.com/gangozero/hackprague2019-be/generated/restapi/operations"
@@ -39,16 +38,11 @@ func configureAPI(api *operations.Hackprague2019BeAPI) http.Handler {
 	api.JSONConsumer = runtime.JSONConsumer()
 
 	api.JSONProducer = runtime.JSONProducer()
-	
-    api.DataGetGradeListHandler = data.GetGradeListHandlerFunc(srv.GetGradesByID)
-    api.DataGetUserGradeListHandler = data.GetUserGradeListHandlerFunc(srv.GetGradesByIDAndUser)
-	api.ProfileGetProfileHandler = profile.GetProfileHandlerFunc(srv.GetProfiles)
 
-	if api.DataPostNewGradeHandler == nil {
-		api.DataPostNewGradeHandler = data.PostNewGradeHandlerFunc(func(params data.PostNewGradeParams) middleware.Responder {
-			return middleware.NotImplemented("operation data.PostNewGrade has not yet been implemented")
-		})
-	}
+	api.DataGetGradeListHandler = data.GetGradeListHandlerFunc(srv.GetGradesByID)
+	api.DataGetUserGradeListHandler = data.GetUserGradeListHandlerFunc(srv.GetGradesByIDAndUser)
+	api.DataPostNewGradeHandler = data.PostNewGradeHandlerFunc(srv.PostGrade)
+	api.ProfileGetProfileHandler = profile.GetProfileHandlerFunc(srv.GetProfiles)
 
 	api.ServerShutdown = func() {
 		srv.Stop()
