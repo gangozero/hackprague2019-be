@@ -1,0 +1,144 @@
+swagger: "2.0"
+info:
+  description: |
+    HackPrague 2019 API
+  title: HackPrague 2019
+  version: 1.0.0
+schemes:
+- http
+- https
+consumes:
+- application/json
+produces:
+- application/json
+basePath: /api/v1
+
+definitions:
+  error:
+    type: object
+    required:
+      - message
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      path:
+        type: string
+
+  profile:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Profile ID
+      name:
+        type: string
+        description: Profile name
+      description:
+        type: string
+        description: Profile description
+  sample:
+    type: object
+    properties:
+      ts:
+        type: number
+        format: integer
+      lat:
+        type: number
+        description: Lat
+      lon:
+        type: number
+        description: Lon
+      grade:
+        type: number
+        format: integer                
+      user_id:
+        type: string
+        description: User ID        
+
+paths:
+  /profile:
+    get:
+      operationId: getProfile
+      summary: Get profile list
+      tags:
+        - profile
+      responses:
+        200:
+          description: Profile list
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/profile"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/error"
+
+  /data/{profile_id}:
+    get:
+      operationId: getGradeList
+      summary: Get anonymous grade list
+      tags:
+        - data
+      parameters:
+        - type: string
+          name: profile_id
+          in: path
+          required: true        
+      responses:
+        200:
+          description: Anonymous grade list
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/sample"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/error"
+    post:
+      operationId: postNewGrade
+      summary: Post new grade
+      tags:
+        - data
+      parameters:
+        - type: string
+          name: profile_id
+          in: path
+          required: true        
+      responses:
+        202:
+          description: Submitted
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/error"
+
+  /data/{profile_id}/{user_id}:
+    get:
+      operationId: getUserGradeList
+      summary: Get grade list for selected user
+      tags:
+        - data
+      parameters:
+        - type: string
+          name: profile_id
+          in: path
+          required: true
+        - type: string
+          name: user_id
+          in: path
+          required: true                  
+      responses:
+        200:
+          description: Grade list
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/sample"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/error"
