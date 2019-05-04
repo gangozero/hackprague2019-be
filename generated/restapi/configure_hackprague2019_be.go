@@ -4,12 +4,14 @@ package restapi
 
 import (
 	"crypto/tls"
+	"log"
 	"net/http"
 
 	errors "github.com/go-openapi/errors"
 	runtime "github.com/go-openapi/runtime"
 	middleware "github.com/go-openapi/runtime/middleware"
 
+	"github.com/gangozero/hackprague2019-be/components/server"
 	"github.com/gangozero/hackprague2019-be/generated/restapi/operations"
 	"github.com/gangozero/hackprague2019-be/generated/restapi/operations/data"
 	"github.com/gangozero/hackprague2019-be/generated/restapi/operations/profile"
@@ -22,6 +24,9 @@ func configureFlags(api *operations.Hackprague2019BeAPI) {
 }
 
 func configureAPI(api *operations.Hackprague2019BeAPI) http.Handler {
+	srv := server.NewServer()
+	log.Printf("Server started")
+
 	// configure the api here
 	api.ServeError = errors.ServeError
 
@@ -40,12 +45,10 @@ func configureAPI(api *operations.Hackprague2019BeAPI) http.Handler {
 			return middleware.NotImplemented("operation data.GetGradeList has not yet been implemented")
 		})
 	}
-	if api.ProfileGetProfileHandler == nil {
-		api.ProfileGetProfileHandler = profile.GetProfileHandlerFunc(func(params profile.GetProfileParams) middleware.Responder {
-			return middleware.NotImplemented("operation profile.GetProfile has not yet been implemented")
-		})
-	}
-	if api.DataGetUserGradeListHandler == nil {
+	
+	api.ProfileGetProfileHandler = profile.GetProfileHandlerFunc(srv.GetProfiles)
+	
+    if api.DataGetUserGradeListHandler == nil {
 		api.DataGetUserGradeListHandler = data.GetUserGradeListHandlerFunc(func(params data.GetUserGradeListParams) middleware.Responder {
 			return middleware.NotImplemented("operation data.GetUserGradeList has not yet been implemented")
 		})
@@ -56,7 +59,9 @@ func configureAPI(api *operations.Hackprague2019BeAPI) http.Handler {
 		})
 	}
 
-	api.ServerShutdown = func() {}
+	api.ServerShutdown = func() {
+		srv.Stop()
+	}
 
 	return setupGlobalMiddleware(api.Serve(setupMiddlewares))
 }
