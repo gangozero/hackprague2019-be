@@ -76,7 +76,7 @@ paths:
           schema:
             $ref: "#/definitions/error"
 
-  /data/{profile_id}:
+  /grade/{profile_id}:
     get:
       operationId: getGradeList
       summary: Get anonymous grade list
@@ -116,7 +116,7 @@ paths:
           schema:
             $ref: "#/definitions/error"
 
-  /data/{profile_id}/{user_id}:
+  /grade/{profile_id}/{user_id}:
     get:
       operationId: getUserGradeList
       summary: Get grade list for selected user
