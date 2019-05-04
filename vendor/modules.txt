@@ -134,8 +134,8 @@ google.golang.org/appengine/internal/datastore
 google.golang.org/appengine/internal/log
 google.golang.org/appengine/internal/remote_api
 # google.golang.org/genproto v0.0.0-20190418145605-e7d98fc518a7
-google.golang.org/genproto/googleapis/firestore/v1
 google.golang.org/genproto/googleapis/type/latlng
+google.golang.org/genproto/googleapis/firestore/v1
 google.golang.org/genproto/googleapis/rpc/code
 google.golang.org/genproto/googleapis/api/annotations
 google.golang.org/genproto/googleapis/rpc/status

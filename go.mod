@@ -14,4 +14,5 @@ require (
 	github.com/jessevdk/go-flags v1.4.0
 	golang.org/x/net v0.0.0-20190503192946-f4e77d36d62c
 	google.golang.org/api v0.4.0
+	google.golang.org/genproto v0.0.0-20190418145605-e7d98fc518a7
 )
