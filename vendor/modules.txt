@@ -14,6 +14,12 @@ github.com/PuerkitoBio/urlesc
 github.com/asaskevich/govalidator
 # github.com/docker/go-units v0.3.3
 github.com/docker/go-units
+# github.com/dre1080/recover v0.0.0-20150930082637-1c296bbb3227
+github.com/dre1080/recover
+# github.com/facebookgo/stack v0.0.0-20160209184415-751773369052
+github.com/facebookgo/stack
+# github.com/fatih/color v1.7.0
+github.com/fatih/color
 # github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 github.com/globalsign/mgo/bson
 github.com/globalsign/mgo/internal/json
@@ -65,6 +71,10 @@ github.com/jessevdk/go-flags
 github.com/mailru/easyjson/jlexer
 github.com/mailru/easyjson/jwriter
 github.com/mailru/easyjson/buffer
+# github.com/mattn/go-colorable v0.1.1
+github.com/mattn/go-colorable
+# github.com/mattn/go-isatty v0.0.7
+github.com/mattn/go-isatty
 # github.com/mitchellh/mapstructure v1.1.2
 github.com/mitchellh/mapstructure
 # go.opencensus.io v0.21.0
